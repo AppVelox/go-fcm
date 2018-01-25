@@ -50,6 +50,7 @@ type FcmMsg struct {
 	Priority              string              `json:"priority,omitempty"`
 	Notification          NotificationPayload `json:"notification,omitempty"`
 	ContentAvailable      bool                `json:"content_available,omitempty"`
+	MutableContent        bool                `json:"mutable_content,omitempty"`
 	DelayWhileIdle        bool                `json:"delay_while_idle,omitempty"`
 	TimeToLive            int                 `json:"time_to_live,omitempty"`
 	RestrictedPackageName string              `json:"restricted_package_name,omitempty"`
@@ -260,6 +261,19 @@ func (this *FcmClient) SetNotificationPayload(payload *NotificationPayload) *Fcm
 func (this *FcmClient) SetContentAvailable(isContentAvailable bool) *FcmClient {
 
 	this.Message.ContentAvailable = isContentAvailable
+
+	return this
+}
+
+// Currently for iOS 10+ devices only.
+// On iOS, use this field to represent mutable-content in the APNs payload.
+// When a notification is sent and this is set to true, the content of the
+// notification can be modified before it is displayed,
+// using a Notification Service app extension. This parameter will be ignored
+// for Android and web.
+func (this *FcmClient) SetMutableContent(isMutableContent bool) *FcmClient {
+
+	this.Message.MutableContent = isMutableContent
 
 	return this
 }
